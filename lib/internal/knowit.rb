@@ -25,7 +25,7 @@ module Knowit
 
     if map.has_key? :insert_command
       p "insert"
-      command = $stdio.read  
+      command = $stdin.read  
       db = get_db
       db.insert(command)
       exit
@@ -39,7 +39,7 @@ module Knowit
       db.curmap.each do |path, m|
         m.each do |no, v|
 	  if no == map[:eval].to_i
-	    command = v[IDX_COMMAND]
+	    command = v[Knowit::DB::IDX_COMMAND]
             print Knowit::Args.replace(command, rest)
 	    exit
           end
