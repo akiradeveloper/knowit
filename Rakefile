@@ -21,6 +21,11 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{TODO: longer description of your gem}
   gem.email = "ruby.wktk@gmail.com"
   gem.authors = ["Akira Hayakawa"]
+
+  gem.files = FileList["lib/**/*.rb"]
+
+  gem.executables << "kw"
+  gem.executables << "knowit"
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
