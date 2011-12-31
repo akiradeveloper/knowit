@@ -1,9 +1,20 @@
-require 'yaml'
-
 require_relative 'knowit'
 
+require 'fileutils'
+
 module Knowit::Config
-  DEFAULT = "~/.knowit/config.rb"
+
+  USER_DIR = "#{ENV["HOME"]}/.knowit"
+  DEFAULT = "#{USER_DIR}/config.rb"
+  unless Dir.exist? USER_DIR
+    p "initializing user dir and config.rb"
+    # Dir.mkdir USER_DIR
+    system("mkdir #{USER_DIR}")
+    pwd = File.expand_path File.dirname __FILE__
+    # FileUtils.cp "#{pwd}/config.template.rb", DEFAULT     
+    system("cp #{pwd}/config.template.rb #{DEFAULT}")
+  end
+
   def self.read(file)
     load file
     return Knowit::CONFIG

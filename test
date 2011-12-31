@@ -1,0 +1,11 @@
+#!/bin/sh
+
+rm -rf ~/.knowit &&
+rake gemspec && 
+rake install && 
+kw -h
+kw --usage
+echo "find $ -type f | xargs grep $" | kw --insert-command && 
+kw -g find && 
+echo "find a keyword in files beneath a directory" | kw --update-help 0 &&
+kw -e 0 . kw

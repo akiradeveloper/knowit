@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.date = "2011-12-31"
   s.description = ""
   s.email = "ruby.wktk@gmail.com"
-  s.executables = ["knowit", "kw", "knowit"]
+  s.executables = ["kw"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.files = [
     "lib/internal/args.rb",
     "lib/internal/config.rb",
+    "lib/internal/config.template.rb",
     "lib/internal/db.rb",
     "lib/internal/knowit.rb",
     "lib/internal/resource/config.rb",
@@ -28,6 +29,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/akiradeveloper/knowit"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
+  s.required_ruby_version = Gem::Requirement.new(">= 1.9.0")
   s.rubygems_version = "1.8.10"
   s.summary = ""
 

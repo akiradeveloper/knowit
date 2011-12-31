@@ -23,9 +23,13 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Akira Hayakawa"]
 
   gem.files = FileList["lib/**/*.rb"]
-
-  gem.executables << "knowit"
+  
+  gem.bindir = "bin"
+  gem.executables = []
+  gem.executables << "kw"
   # dependencies defined in Gemfile
+
+  gem.required_ruby_version = '>= 1.9.0'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
