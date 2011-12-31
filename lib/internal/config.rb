@@ -2,7 +2,7 @@ require 'yaml'
 require_relative 'knowit'
 
 module Knowit::Config
-  PATH = "~/.knowit/config.rb"
+  DEFAULT = "~/.knowit/config.rb"
   def self.read(file)
     load file
     return Knowit::CONFIG

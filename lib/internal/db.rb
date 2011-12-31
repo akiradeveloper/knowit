@@ -10,15 +10,15 @@ class Knowit::DB
   IDX_HELP = 1
 
   def initialize(pathlist)
-    @pathlist = @pathlist
+    @pathlist = pathlist
     @map = {} # { path => { no => [] } }
     @sizes = {} # { path => size }
 
     no = 0
     @pathlist.each do |path|
       @map[path] = {}
-      unless File.exists path
-        init_db(path)
+      unless File.exists? path
+        Knowit::DB.init_db(path)
       end
       list = Marshal.load File.read(path)
       sz = list.size
@@ -47,8 +47,15 @@ class Knowit::DB
   end
 
   def update_help(no, help)
-    path = path_no(no)
+    path = path_of(no)
     @map[path][no][IDX_HELP] = help
+    tmp = []
+    @map[path].each do |no, value|
+      tmp << value
+    end
+    f = File.open path, "w"
+    f.write( Marshal.dump(tmp) )
+    f.close
   end
 
   def insert(command)
@@ -58,6 +65,10 @@ class Knowit::DB
     f = File.open rwpath, "w"
     f.write Marshal.dump(list)
     f.close
+  end
+
+  def curmap
+    @map
   end
 
   def self.show(map) 
@@ -101,4 +112,15 @@ if __FILE__ == $0
   Knowit::DB.show( Knowit::DB.filter(map, "ls") )
   Knowit::DB.show( Knowit::DB.filter(map, "cu") )
   Knowit::DB.show( Knowit::DB.filter(map, "akira") )
+
+  db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
+  # p db
+  db.insert("tar xvfz")
+  db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
+  Knowit::DB.show( db.curmap )
+  db.update_help(0, "decompress tar.gz archive")
+  db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
+  db.insert("tar xvfj")
+  db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
+  db.update_help(2, "decompress tar.bz2 archive ya")
 end
