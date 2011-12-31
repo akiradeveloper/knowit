@@ -1,5 +1,6 @@
 require_relative 'knowit'
 require_relative 'config'
+require_relative 'args'
 
 # Note that index "no" is zero origin.
 # For user we will provide one origin in accordance with history command.
@@ -39,6 +40,8 @@ class Knowit::DB
   def path_of(no)
     n = no
     idx = 0
+    p n
+    p @sizes
     while( n >= @sizes[ @pathlist[idx] ] )
       n -= @sizes[ @pathlist[idx] ]
       idx += 1
@@ -72,17 +75,14 @@ class Knowit::DB
   end
 
   def self.show(map) 
-    # line = Array.new(68, "-").join 
-    # puts line
     puts sprintf("%-8s %-30s %-30s", "no.", "command", "help")
-    # puts line
     format = "%-8d %-30s %-30s"
     map.each do |p, m|
       m.each do |no, value|
-        puts sprintf(format, no, value[IDX_COMMAND][0...30], value[IDX_HELP][0...30])
+        v = Knowit::Args.show value[IDX_COMMAND][0...30]
+        puts sprintf(format, no, v, value[IDX_HELP][0...30])
       end
     end 
-    # puts line
     puts
   end
 
@@ -114,13 +114,12 @@ if __FILE__ == $0
   Knowit::DB.show( Knowit::DB.filter(map, "akira") )
 
   db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
-  # p db
-  db.insert("tar xvfz")
+  db.insert("tar xvfz $")
   db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
   Knowit::DB.show( db.curmap )
   db.update_help(0, "decompress tar.gz archive")
   db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
-  db.insert("tar xvfj")
+  db.insert("tar xvfj $")
   db = Knowit::DB.new Knowit::Config.read("resource/config.rb")[:db]
-  db.update_help(2, "decompress tar.bz2 archive ya")
+  db.update_help(1, "decompress tar.bz2 archive ya")
 end
