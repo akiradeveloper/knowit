@@ -17,14 +17,13 @@ Jeweler::Tasks.new do |gem|
   gem.name = "knowit"
   gem.homepage = "http://github.com/akiradeveloper/knowit"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{}
+  gem.description = %Q{}
   gem.email = "ruby.wktk@gmail.com"
   gem.authors = ["Akira Hayakawa"]
 
   gem.files = FileList["lib/**/*.rb"]
 
-  gem.executables << "kw"
   gem.executables << "knowit"
   # dependencies defined in Gemfile
 end

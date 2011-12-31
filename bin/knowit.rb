@@ -1,0 +1,3 @@
+require "knowit"
+
+Knowit.run()
