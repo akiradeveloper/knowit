@@ -40,8 +40,6 @@ class Knowit::DB
   def path_of(no)
     n = no
     idx = 0
-    p n
-    p @sizes
     while( n >= @sizes[ @pathlist[idx] ] )
       n -= @sizes[ @pathlist[idx] ]
       idx += 1
@@ -75,23 +73,27 @@ class Knowit::DB
   end
 
   def self.show(map) 
-    puts sprintf("%-8s %-30s %-30s", "no.", "command", "help")
-    format = "%-8d %-30s %-30s"
+    w_command = 30
+    w_help = 30
+    print sprintf("%-8s  %-#{w_command}s  %-#{w_help}s\n", "no.", "command", "help")
+    format = "%-8d  %-#{w_command}s  %-#{w_help}s\n"
     map.each do |p, m|
       m.each do |no, value|
-        v = Knowit::Args.show value[IDX_COMMAND][0...30]
-        puts sprintf(format, no, v, value[IDX_HELP][0...30])
+        v = (Knowit::Args.show value[IDX_COMMAND])[0...w_command]
+        print sprintf(format, no, v, value[IDX_HELP][0...w_help])
       end
     end 
     puts
   end
 
   def self.filter(map, pat) # :: map
+    # FIXME this conversion algorithm is not sufficient.
+    reg = Regexp.new pat.gsub('*', '.*').gsub('?', '.?')
     tmp = {}
     map.each do |p, m|
       tmp[p] = {}
       m.each do |no, value|
-        if value[IDX_COMMAND].include? pat or value[IDX_HELP].include? pat
+        if reg =~ value[IDX_COMMAND] or reg =~ value[IDX_HELP]
           tmp[p][no] = value
 	end 
       end

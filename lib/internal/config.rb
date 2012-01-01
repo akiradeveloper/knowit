@@ -7,7 +7,7 @@ module Knowit::Config
   USER_DIR = "#{ENV["HOME"]}/.knowit"
   DEFAULT = "#{USER_DIR}/config.rb"
   unless Dir.exist? USER_DIR
-    p "initializing user dir and config.rb"
+    p "initializing user dir (#{USER_DIR}) and config.rb"
     # Dir.mkdir USER_DIR
     system("mkdir #{USER_DIR}")
     pwd = File.expand_path File.dirname __FILE__

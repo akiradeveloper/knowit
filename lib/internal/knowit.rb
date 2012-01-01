@@ -9,10 +9,10 @@ module Knowit
     map = {}
     opt = ::OptionParser.new
     opt.on('--usage', "see usage doc") { |b| map[:usage] = b }
-    opt.on('-g VAL', "find keyword in database.") { |pat| map[:grep] = pat }
+    opt.on('-g pattern', "find keyword in database.") { |pat| map[:grep] = pat }
     opt.on('--insert-command', "insert new command. use $ not followed by number to specify argument. command must be given in stdin.") { |b| map[:insert_command] = b }
-    opt.on('-e VAL', "replace $1..$n by given arguments.") { |no| map[:eval] = no }
-    opt.on('--update-help VAL', "update help message. the message must be given in stdin.") { |no| map[:update_help] = no }
+    opt.on('-e no', "replace $1..$n by given arguments following this option.") { |no| map[:eval] = no }
+    opt.on('--update-help no', "update help message. the message must be given in stdin.") { |no| map[:update_help] = no }
     opt.parse!(ARGV)
 
     if map.has_key? :usage
@@ -21,14 +21,12 @@ module Knowit
     end
 
     if map.has_key? :grep
-      p "grep"
       pat = map[:grep]
       Knowit::DB.show( Knowit::DB.filter( get_db.curmap, pat ) )
       exit
     end
 
     if map.has_key? :insert_command
-      p "insert"
       command = $stdin.read  
       db = get_db
       db.insert(command)
@@ -36,8 +34,6 @@ module Knowit
     end
 
     if map.has_key? :eval
-      p "eval"
-      p map[:eval]
       rest = ARGV 
       db = get_db
       db.curmap.each do |path, m|
@@ -66,8 +62,7 @@ module Knowit
 
   def self.usage
     print <<-EOF
-usage:
-
+Usage: 
 # add your commmand
 echo "find $ -type f | xargs grep $" | kw --insert-command 
 # search in ur database 

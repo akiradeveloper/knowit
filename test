@@ -6,6 +6,8 @@ rake install &&
 kw -h
 kw --usage
 echo "find $ -type f | xargs grep $" | kw --insert-command && 
-kw -g find && 
+kw -g f?nd*g && 
 echo "find a keyword in files beneath a directory" | kw --update-help 0 &&
+kw -g w*i?d &&
+kw -g w*i?*d &&
 kw -e 0 . kw
